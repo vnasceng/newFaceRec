@@ -1,0 +1,1 @@
+/home/ubuntu/victor/NewFaceRec/build/CMakeFiles/WebcamFaceRec.dir
