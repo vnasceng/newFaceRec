@@ -74,10 +74,12 @@ const bool preprocessLeftAndRightSeparately = true;   // Preprocess left & right
 bool m_debug = false;
 
 
+
 #include <stdio.h>
 #include <vector>
 #include <string>
 #include <iostream>
+#include <pthread.h>
 
 // Include OpenCV's C++ Interface
 #include "opencv2/opencv.hpp"
@@ -97,6 +99,13 @@ using namespace std;
     #define VK_ESCAPE 0x1B      // Escape character (27)
 #endif
 
+#define VK_0 0x30
+#define VK_1 0x31
+#define VK_2 0x32
+#define VK_3 0x33
+#define VK_4 0x34
+
+pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
 
 // Running mode for the Webcam-based interactive GUI program.
 enum MODES {MODE_STARTUP=0, MODE_DETECTION, MODE_COLLECT_FACES, MODE_TRAINING, MODE_RECOGNITION, MODE_DELETE_ALL,   MODE_END};
@@ -255,65 +264,60 @@ bool isPointInRect(const Point pt, const Rect rc)
 }
 
 // Mouse event handler. Called automatically by OpenCV when the user clicks in the GUI window.
-void onMouse(int event, int x, int y, int, void*)
+void *changeMode( void *ptr )
 {
     // We only care about left-mouse clicks, not right-mouse clicks or mouse movement.
-    if (event != CV_EVENT_LBUTTONDOWN)
-        return;
 
     // Check if the user clicked on one of our GUI buttons.
-    Point pt = Point(x,y);
-    if (isPointInRect(pt, m_rcBtnAdd)) {
-        cout << "User clicked [Add Person] button when numPersons was " << m_numPersons << endl;
-        // Check if there is already a person without any collected faces, then use that person instead.
-        // This can be checked by seeing if an image exists in their "latest collected face".
-        if ((m_numPersons == 0) || (m_latestFaces[m_numPersons-1] >= 0)) {
-            // Add a new person.
-            m_numPersons++;
-            m_latestFaces.push_back(-1); // Allocate space for an extra person.
-            cout << "Num Persons: " << m_numPersons << endl;
-        }
-        // Use the newly added person. Also use the newest person even if that person was empty.
-        m_selectedPerson = m_numPersons - 1;
-        m_mode = MODE_COLLECT_FACES;
-    }
-    else if (isPointInRect(pt, m_rcBtnDel)) {
-        cout << "User clicked [Delete All] button." << endl;
-        m_mode = MODE_DELETE_ALL;
-    }
-    else if (isPointInRect(pt, m_rcBtnDebug)) {
-        cout << "User clicked [Debug] button." << endl;
-        m_debug = !m_debug;
-        cout << "Debug mode: " << m_debug << endl;
-    }
-    else {
-        cout << "User clicked on the image" << endl;
-        // Check if the user clicked on one of the faces in the list.
-        int clickedPerson = -1;
-        for (int i=0; i<m_numPersons; i++) {
-            if (m_gui_faces_top >= 0) {
-                Rect rcFace = Rect(m_gui_faces_left, m_gui_faces_top + i * faceHeight, faceWidth, faceHeight);
-                if (isPointInRect(pt, rcFace)) {
-                    clickedPerson = i;
-                    break;
-                }
-            }
-        }
-        // Change the selected person, if the user clicked on a face in the GUI.
-        if (clickedPerson >= 0) {
-            // Change the current person, and collect more photos for them.
-            m_selectedPerson = clickedPerson; // Use the newly added person.
-            m_mode = MODE_COLLECT_FACES;
-        }
-        // Otherwise they clicked in the center.
-        else {
-            // Change to training mode if it was collecting faces.
-            if (m_mode == MODE_COLLECT_FACES) {
-                cout << "User wants to begin training." << endl;
-                m_mode = MODE_TRAINING;
-            }
-        }
-    }
+
+    while(1){
+    	pthread_mutex_lock( &mutex1 );
+	    if (m_mode == MODE_COLLECT_FACES) {
+	        cout << "User clicked [Add Person] button when numPersons was " << m_numPersons << endl;
+	        // Check if there is already a person without any collected faces, then use that person instead.
+	        // This can be checked by seeing if an image exists in their "latest collected face".
+	        if ((m_numPersons == 0) || (m_latestFaces[m_numPersons-1] >= 0)) {
+	            // Add a new person.
+	            m_numPersons++;
+	            m_latestFaces.push_back(-1); // Allocate space for an extra person.
+	            cout << "Num Persons: " << m_numPersons << endl;
+	        }
+	        // Use the newly added person. Also use the newest person even if that person was empty.
+	        m_selectedPerson = m_numPersons - 1;
+	    }
+	    // else if (m_mode == MODE_DELETE_ALL)) {
+	    //     cout << "User clicked [Delete All] button." << endl;
+	    // }
+	    
+	    // else {
+	    //     cout << "User clicked on the image" << endl;
+	    //     // Check if the user clicked on one of the faces in the list.
+	    //     int clickedPerson = -1;
+	    //     for (int i=0; i<m_numPersons; i++) {
+	    //         if (m_gui_faces_top >= 0) {
+	    //             Rect rcFace = Rect(m_gui_faces_left, m_gui_faces_top + i * faceHeight, faceWidth, faceHeight);
+	    //             if (isPointInRect(pt, rcFace)) {
+	    //                 clickedPerson = i;
+	    //                 break;
+	    //             }
+	    //         }
+	    //     }
+	    //     // Change the selected person, if the user clicked on a face in the GUI.
+	    //     if (clickedPerson >= 0) {
+	    //         // Change the current person, and collect more photos for them.
+	    //         m_selectedPerson = clickedPerson; // Use the newly added person.
+	    //         m_mode = MODE_COLLECT_FACES;
+	    //     }
+	    //     // Otherwise they clicked in the center.
+	    //     else {
+	    //         // Change to training mode if it was collecting faces.
+	    //         if (m_mode == MODE_COLLECT_FACES) {
+	    //             cout << "User wants to begin training." << endl;
+	    //             m_mode = MODE_TRAINING;
+	    //         }
+	    //     }
+	    // }
+	}
 }
 
 
@@ -378,6 +382,7 @@ void recognizeAndTrainUsingWebcam(VideoCapture &videoCapture, CascadeClassifier 
         else if (m_mode == MODE_COLLECT_FACES) {
             // Check if we have detected a face.
             if (gotFaceAndEyes) {
+            	printf("Entered in collect faces\n");
 
                 // Check if this face looks somewhat different from the previously collected face.
                 double imageDiff = 10000000000.0;
@@ -407,8 +412,8 @@ void recognizeAndTrainUsingWebcam(VideoCapture &videoCapture, CascadeClassifier 
                     cout << "Saved face " << (preprocessedFaces.size()/2) << " for person " << m_selectedPerson << endl;
 
                     // Make a white flash on the face, so the user knows a photo has been taken.
-                    Mat displayedFaceRegion = displayedFrame(faceRect);
-                    displayedFaceRegion += CV_RGB(90,90,90);
+                    // Mat displayedFaceRegion = displayedFrame(faceRect);
+                    // displayedFaceRegion += CV_RGB(90,90,90);
 
                     // Keep a copy of the processed face, to compare on next iteration.
                     old_prepreprocessedFace = preprocessedFace;
@@ -628,7 +633,19 @@ void recognizeAndTrainUsingWebcam(VideoCapture &videoCapture, CascadeClassifier 
         if (keypress == VK_ESCAPE) {   // Escape Key
             // Quit the program!
             break;
+        }else if(keypress == VK_0){
+        	m_mode = MODE_COLLECT_FACES;
+        	pthread_mutex_unlock( &mutex1 );
+        }else if(keypress == VK_1){
+        	m_mode = MODE_RECOGNITION;
+        }else if(keypress == VK_2){
+        	m_mode = MODE_TRAINING;
+        }else if(keypress == VK_3){
+        	m_mode = MODE_DETECTION;
         }
+
+
+
 
     }//end while
 }
@@ -640,10 +657,20 @@ int main(int argc, char *argv[])
     CascadeClassifier eyeCascade1;
     CascadeClassifier eyeCascade2;
     VideoCapture videoCapture;
-
+    pthread_t thread1;
+    int iret1;
+    const char *message1 = "Thread 1";
     cout << "WebcamFaceRec, by Shervin Emami (www.shervinemami.info), June 2012." << endl;
     cout << "Realtime face detection + face recognition from a webcam using LBP and Eigenfaces or Fisherfaces." << endl;
     cout << "Compiled with OpenCV version " << CV_VERSION << endl << endl;
+
+
+    iret1 = pthread_create( &thread1, NULL, changeMode, (void*) message1);
+    if(iret1)
+    {
+        fprintf(stderr,"Error - pthread_create() return code: %d\n",iret1);
+         exit(EXIT_FAILURE);
+    }
 
     // Load the face and 1 or 2 eye detection XML classifiers.
     initDetectors(faceCascade, eyeCascade1, eyeCascade2);

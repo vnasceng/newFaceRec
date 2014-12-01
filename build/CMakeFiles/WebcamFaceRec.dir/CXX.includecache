@@ -63,6 +63,8 @@ string
 -
 iostream
 -
+pthread.h
+-
 opencv2/opencv.hpp
 /home/ubuntu/victor/NewFaceRec/opencv2/opencv.hpp
 detectObject.h
