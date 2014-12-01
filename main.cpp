@@ -29,8 +29,8 @@
 //    "FaceRecognizer.Eigenfaces":  Eigenfaces, also referred to as PCA (Turk and Pentland, 1991).
 //    "FaceRecognizer.Fisherfaces": Fisherfaces, also referred to as LDA (Belhumeur et al, 1997).
 //    "FaceRecognizer.LBPH":        Local Binary Pattern Histograms (Ahonen et al, 2006).
-const char *facerecAlgorithm = "FaceRecognizer.Fisherfaces";
-//const char *facerecAlgorithm = "FaceRecognizer.Eigenfaces";
+// char *facerecAlgorithm = "FaceRecognizer.Fisherfaces";
+char *facerecAlgorithm = "FaceRecognizer.Eigenfaces";
 
 
 // Sets how confident the Face Verification algorithm should be to decide if it is an unknown person or a known person.
@@ -67,12 +67,13 @@ const double CHANGE_IN_SECONDS_FOR_COLLECTION = 1.0;       // How much time must
 
 const char *windowName = "WebcamFaceRec";   // Name shown in the GUI window.
 const int BORDER = 8;  // Border between GUI elements to the edge of the image.
-
+int countPickImage = 30;
 const bool preprocessLeftAndRightSeparately = true;   // Preprocess left & right sides of the face separately, in case there is stronger light on one side.
 
 // Set to true if you want to see many windows created, showing various debug info. Set to 0 otherwise.
 bool m_debug = false;
 
+bool imgfile = true;
 
 
 #include <stdio.h>
@@ -104,6 +105,8 @@ using namespace std;
 #define VK_2 0x32
 #define VK_3 0x33
 #define VK_4 0x34
+#define VK_5 0x35
+#define VK_6 0x36
 
 pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
 
@@ -114,8 +117,11 @@ MODES m_mode = MODE_STARTUP;
 
 int m_selectedPerson = -1;
 int m_numPersons = 0;
+int nPersons;
 vector<int> m_latestFaces;
-
+vector<Mat> preprocessedFaces;
+vector<int> faceLabels;
+vector<string> personNames;			// array of person names (indexed by the person number).
 // Position of GUI buttons:
 Rect m_rcBtnAdd;
 Rect m_rcBtnDel;
@@ -271,16 +277,22 @@ void *changeMode( void *ptr )
     // Check if the user clicked on one of our GUI buttons.
 
     while(1){
+        
     	pthread_mutex_lock( &mutex1 );
 	    if (m_mode == MODE_COLLECT_FACES) {
-	        cout << "User clicked [Add Person] button when numPersons was " << m_numPersons << endl;
+	    	countPickImage = 0;
+	        cout << "Incrementing number of persons, number persons was = " << m_numPersons << endl;
+            cout << "[debug] - last faces " << m_latestFaces.size() << " selected person " << m_selectedPerson << endl;
 	        // Check if there is already a person without any collected faces, then use that person instead.
 	        // This can be checked by seeing if an image exists in their "latest collected face".
 	        if ((m_numPersons == 0) || (m_latestFaces[m_numPersons-1] >= 0)) {
 	            // Add a new person.
 	            m_numPersons++;
+                char aux[64];
+                sprintf(aux,"person_%d",m_numPersons);
+                personNames.push_back(aux);
 	            m_latestFaces.push_back(-1); // Allocate space for an extra person.
-	            cout << "Num Persons: " << m_numPersons << endl;
+	            cout << "Current Num Persons: " << m_numPersons << endl;
 	        }
 	        // Use the newly added person. Also use the newest person even if that person was empty.
 	        m_selectedPerson = m_numPersons - 1;
@@ -325,29 +337,38 @@ void *changeMode( void *ptr )
 void recognizeAndTrainUsingWebcam(VideoCapture &videoCapture, CascadeClassifier &faceCascade, CascadeClassifier &eyeCascade1, CascadeClassifier &eyeCascade2)
 {
     Ptr<FaceRecognizer> model;
-    vector<Mat> preprocessedFaces;
-    vector<int> faceLabels;
+    // vector<Mat> preprocessedFaces;
+    // vector<int> faceLabels;
     Mat old_prepreprocessedFace;
     double old_time = 0;
-
+    
     // Since we have already initialized everything, lets start in Detection mode.
     m_mode = MODE_DETECTION;
-
-
+    char keypress;
+    keypress == VK_4;
+    Mat cameraFrame;
+    Mat displayedFrame;
     // Run forever, until the user hits Escape to "break" out of this loop.
     while (true) {
-
+        cout <<  " Current MODE:  " << m_mode << endl;
         // Grab the next camera frame. Note that you can't modify camera frames.
-        Mat cameraFrame;
-        videoCapture >> cameraFrame;
-        if( cameraFrame.empty() ) {
-            cerr << "ERROR: Couldn't grab the next camera frame." << endl;
-            exit(1);
+        
+        if(!imgfile){
+            videoCapture >> cameraFrame;
+            if( cameraFrame.empty() ) {
+                cerr << "ERROR: Couldn't grab the next camera frame." << endl;
+                exit(1);
+            }
+            cameraFrame.copyTo(displayedFrame);
+            cameraFrame.release();
         }
+        //restor default mode (load from camera)
+        // imgfile = false; 
+        
 
         // Get a copy of the camera frame that we can draw onto.
-        Mat displayedFrame;
-        cameraFrame.copyTo(displayedFrame);
+        
+
 
         // Run the face recognition system on the camera image. It will draw some things onto the given image, so make sure it is not read-only memory!
         int identity = -1;
@@ -378,12 +399,13 @@ void recognizeAndTrainUsingWebcam(VideoCapture &videoCapture, CascadeClassifier 
 
         if (m_mode == MODE_DETECTION) {
             // Don't do anything special.
+
         }
         else if (m_mode == MODE_COLLECT_FACES) {
             // Check if we have detected a face.
             if (gotFaceAndEyes) {
-            	printf("Entered in collect faces\n");
-
+            	
+            	cout << "[debug] - last faces " << m_latestFaces.size() << " selected person " << m_selectedPerson << endl;
                 // Check if this face looks somewhat different from the previously collected face.
                 double imageDiff = 10000000000.0;
                 if (old_prepreprocessedFace.data) {
@@ -410,7 +432,7 @@ void recognizeAndTrainUsingWebcam(VideoCapture &videoCapture, CascadeClassifier 
                     m_latestFaces[m_selectedPerson] = preprocessedFaces.size() - 2;  // Point to the non-mirrored face.
                     // Show the number of collected faces. But since we also store mirrored faces, just show how many the user thinks they stored.
                     cout << "Saved face " << (preprocessedFaces.size()/2) << " for person " << m_selectedPerson << endl;
-
+                    countPickImage++;
                     // Make a white flash on the face, so the user knows a photo has been taken.
                     // Mat displayedFaceRegion = displayedFrame(faceRect);
                     // displayedFaceRegion += CV_RGB(90,90,90);
@@ -440,7 +462,7 @@ void recognizeAndTrainUsingWebcam(VideoCapture &videoCapture, CascadeClassifier 
             if (haveEnoughData) {
                 // Start training from the collected faces using Eigenfaces or a similar algorithm.
                 model = learnCollectedFaces(preprocessedFaces, faceLabels, facerecAlgorithm);
-
+//                storeTrainingData();
                 // Show the internal face recognition data, to help debugging.
                 if (m_debug)
                     showTrainingDebugData(model, faceWidth, faceHeight);
@@ -456,29 +478,26 @@ void recognizeAndTrainUsingWebcam(VideoCapture &videoCapture, CascadeClassifier 
         }
         else if (m_mode == MODE_RECOGNITION) {
             if (gotFaceAndEyes && (preprocessedFaces.size() > 0) && (preprocessedFaces.size() == faceLabels.size())) {
-
                 // Generate a face approximation by back-projecting the eigenvectors & eigenvalues.
                 Mat reconstructedFace;
                 reconstructedFace = reconstructFace(model, preprocessedFace);
                 if (m_debug)
                     if (reconstructedFace.data)
                         saveFloatMat("reconstructedFace", &reconstructedFace);
-
                 // Verify whether the reconstructed face looks like the preprocessed face, otherwise it is probably an unknown person.
                 double similarity = getSimilarity(preprocessedFace, reconstructedFace);
-
                 string outputStr;
                 if (similarity < UNKNOWN_PERSON_THRESHOLD) {
                     // Identify who the person is in the preprocessed face image.
                     identity = model->predict(preprocessedFace);
-                    outputStr = toString(identity);
+                    outputStr = personNames[identity];
                 }
                 else {
                     // Since the confidence is low, assume it is an unknown person.
                     outputStr = "Unknown";
                 }
                 cout << "Identity: " << outputStr << ". Similarity: " << similarity << endl;
-
+                
                 // Show the confidence rating for the recognition in the mid-top of the display.
                 int cx = (displayedFrame.cols - faceWidth) / 2;
                 Point ptBottomRight = Point(cx - 5, BORDER + faceHeight);
@@ -515,30 +534,30 @@ void recognizeAndTrainUsingWebcam(VideoCapture &videoCapture, CascadeClassifier 
         
         // Show the help, while also showing the number of collected faces. Since we also collect mirrored faces, we should just
         // tell the user how many faces they think we saved (ignoring the mirrored faces), hence divide by 2.
-        string help;
-        Rect rcHelp;
-        if (m_mode == MODE_DETECTION)
-            help = "Click [Add Person] when ready to collect faces.";
-        else if (m_mode == MODE_COLLECT_FACES)
-            help = "Click anywhere to train from your " + toString(preprocessedFaces.size()/2) + " faces of " + toString(m_numPersons) + " people.";
-        else if (m_mode == MODE_TRAINING)
-            help = "Please wait while your " + toString(preprocessedFaces.size()/2) + " faces of " + toString(m_numPersons) + " people builds.";
-        else if (m_mode == MODE_RECOGNITION)
-            help = "Click people on the right to add more faces to them, or [Add Person] for someone new.";
-        if (help.length() > 0) {
-            // Draw it with a black background and then again with a white foreground.
-            // Since BORDER may be 0 and we need a negative position, subtract 2 from the border so it is always negative.
-            float txtSize = 0.4;
-            drawString(displayedFrame, help, Point(BORDER, -BORDER-2), CV_RGB(0,0,0), txtSize);  // Black shadow.
-            rcHelp = drawString(displayedFrame, help, Point(BORDER+1, -BORDER-1), CV_RGB(255,255,255), txtSize);  // White text.
-        }
+        // string help;
+        // Rect rcHelp;
+        // if (m_mode == MODE_DETECTION)
+        //     help = "Click [Add Person] when ready to collect faces.";
+        // else if (m_mode == MODE_COLLECT_FACES)
+        //     help = "Click anywhere to train from your " + toString(preprocessedFaces.size()/2) + " faces of " + toString(m_numPersons) + " people.";
+        // else if (m_mode == MODE_TRAINING)
+        //     help = "Please wait while your " + toString(preprocessedFaces.size()/2) + " faces of " + toString(m_numPersons) + " people builds.";
+        // else if (m_mode == MODE_RECOGNITION)
+        //     help = "Click people on the right to add more faces to them, or [Add Person] for someone new.";
+        // if (help.length() > 0) {
+        //     // Draw it with a black background and then again with a white foreground.
+        //     // Since BORDER may be 0 and we need a negative position, subtract 2 from the border so it is always negative.
+        //     float txtSize = 0.4;
+        //     drawString(displayedFrame, help, Point(BORDER, -BORDER-2), CV_RGB(0,0,0), txtSize);  // Black shadow.
+        //     rcHelp = drawString (displayedFrame, help, Point(BORDER+1, -BORDER-1), CV_RGB(255,255,255), txtSize);  // White text.
+        // }
 
-        // Show the current mode.
-        if (m_mode >= 0 && m_mode < MODE_END) {
-            string modeStr = "MODE: " + string(MODE_NAMES[m_mode]);
-            drawString(displayedFrame, modeStr, Point(BORDER, -BORDER-2 - rcHelp.height), CV_RGB(0,0,0));       // Black shadow
-            drawString(displayedFrame, modeStr, Point(BORDER+1, -BORDER-1 - rcHelp.height), CV_RGB(0,255,0)); // Green text
-        }
+        // // Show the current mode.
+        // if (m_mode >= 0 && m_mode < MODE_END) {
+        //     string modeStr = "MODE: " + string(MODE_NAMES[m_mode]);
+        //     drawString(displayedFrame, modeStr, Point(BORDER, -BORDER-2 - rcHelp.height), CV_RGB(0,0,0));       // Black shadow
+        //     drawString(displayedFrame, modeStr, Point(BORDER+1, -BORDER-1 - rcHelp.height), CV_RGB(0,255,0)); // Green text
+        // }
 
         // Show the current preprocessed face in the top-center of the display.
         int cx = (displayedFrame.cols - faceWidth) / 2;
@@ -554,55 +573,56 @@ void recognizeAndTrainUsingWebcam(VideoCapture &videoCapture, CascadeClassifier 
             srcBGR.copyTo(dstROI);
         }
         // Draw an anti-aliased border around the face, even if it is not shown.
-        rectangle(displayedFrame, Rect(cx-1, BORDER-1, faceWidth+2, faceHeight+2), CV_RGB(200,200,200), 1, CV_AA);
+        // rectangle(displayedFrame, Rect(cx-1, BORDER-1, faceWidth+2, faceHeight+2), CV_RGB(200,200,200), 1, CV_AA);
 
         // Draw the GUI buttons into the main image.
-        m_rcBtnAdd = drawButton(displayedFrame, "Add Person", Point(BORDER, BORDER));
-        m_rcBtnDel = drawButton(displayedFrame, "Delete All", Point(m_rcBtnAdd.x, m_rcBtnAdd.y + m_rcBtnAdd.height), m_rcBtnAdd.width);
-        m_rcBtnDebug = drawButton(displayedFrame, "Debug", Point(m_rcBtnDel.x, m_rcBtnDel.y + m_rcBtnDel.height), m_rcBtnAdd.width);
+        // m_rcBtnAdd = drawButton(displayedFrame, "Add Person", Point(BORDER, BORDER));
+        // m_rcBtnDel = drawButton(displayedFrame, "Delete All", Point(m_rcBtnAdd.x, m_rcBtnAdd.y + m_rcBtnAdd.height), m_rcBtnAdd.width);
+        // m_rcBtnDebug = drawButton(displayedFrame, "Debug", Point(m_rcBtnDel.x, m_rcBtnDel.y + m_rcBtnDel.height), m_rcBtnAdd.width);
 
         // Show the most recent face for each of the collected people, on the right side of the display.
-        m_gui_faces_left = displayedFrame.cols - BORDER - faceWidth;
-        m_gui_faces_top = BORDER;
-        for (int i=0; i<m_numPersons; i++) {
-            int index = m_latestFaces[i];
-            if (index >= 0 && index < (int)preprocessedFaces.size()) {
-                Mat srcGray = preprocessedFaces[index];
-                if (srcGray.data) {
-                    // Get a BGR version of the face, since the output is BGR color.
-                    Mat srcBGR = Mat(srcGray.size(), CV_8UC3);
-                    cvtColor(srcGray, srcBGR, CV_GRAY2BGR);
-                    // Get the destination ROI (and make sure it is within the image!).
-                    int y = min(m_gui_faces_top + i * faceHeight, displayedFrame.rows - faceHeight);
-                    Rect dstRC = Rect(m_gui_faces_left, y, faceWidth, faceHeight);
-                    Mat dstROI = displayedFrame(dstRC);
-                    // Copy the pixels from src to dst.
-                    srcBGR.copyTo(dstROI);
-                }
-            }
-        }
+        // m_gui_faces_left = displayedFrame.cols - BORDER - faceWidth;
+        // m_gui_faces_top = BORDER;
+        // for (int i=0; i<m_numPersons; i++) {
+        //     int index = m_latestFaces[i];
+        //     if (index >= 0 && index < (int)preprocessedFaces.size()) {
+        //         Mat srcGray = preprocessedFaces[index];
+        //         if (srcGray.data) {
+        //             // Get a BGR version of the face, since the output is BGR color.
+        //             Mat srcBGR = Mat(srcGray.size(), CV_8UC3);
+        //             cvtColor(srcGray, srcBGR, CV_GRAY2BGR);
+        //             // Get the destination ROI (and make sure it is within the image!).
+        //             int y = min(m_gui_faces_top + i * faceHeight, displayedFrame.rows - faceHeight);
+        //             Rect dstRC = Rect(m_gui_faces_left, y, faceWidth, faceHeight);
+        //             Mat dstROI = displayedFrame(dstRC);
+        //             // Copy the pixels from src to dst.
+        //             srcBGR.copyTo(dstROI);
+        //         }
+        //     }
+        // }
 
         // Highlight the person being collected, using a red rectangle around their face.
-        if (m_mode == MODE_COLLECT_FACES) {
-            if (m_selectedPerson >= 0 && m_selectedPerson < m_numPersons) {
-                int y = min(m_gui_faces_top + m_selectedPerson * faceHeight, displayedFrame.rows - faceHeight);
-                Rect rc = Rect(m_gui_faces_left, y, faceWidth, faceHeight);
-                rectangle(displayedFrame, rc, CV_RGB(255,0,0), 3, CV_AA);
-            }
-        }
+        // if (m_mode == MODE_COLLECT_FACES) {
+        //     if (m_selectedPerson >= 0 && m_selectedPerson < m_numPersons) {
+        //         int y = min(m_gui_faces_top + m_selectedPerson * faceHeight, displayedFrame.rows - faceHeight);
+        //         Rect rc = Rect(m_gui_faces_left, y, faceWidth, faceHeight);
+        //         rectangle(displayedFrame, rc, CV_RGB(255,0,0), 3, CV_AA);
+        //     }
+        // }
 
         // Highlight the person that has been recognized, using a green rectangle around their face.
-        if (identity >= 0 && identity < 1000) {
-            int y = min(m_gui_faces_top + identity * faceHeight, displayedFrame.rows - faceHeight);
-            Rect rc = Rect(m_gui_faces_left, y, faceWidth, faceHeight);
-            rectangle(displayedFrame, rc, CV_RGB(0,255,0), 3, CV_AA);
-        }
+        // if (identity >= 0 && identity < 1000) {
+        //     int y = min(m_gui_faces_top + identity * faceHeight, displayedFrame.rows - faceHeight);
+        //     Rect rc = Rect(m_gui_faces_left, y, faceWidth, faceHeight);
+        //     rectangle(displayedFrame, rc, CV_RGB(0,255,0), 3, CV_AA);
+        // }
 
         // Show the camera frame on the screen.
         // imshow(windowName, displayedFrame);
          // IplImage dst_img = convertMatrixToUcharImage(&displayedFrame);
         // const Mat test = displayedFrame;
-        imwrite("Output.jpg",displayedFrame);
+        // imwrite("Output.jpg",displayedFrame);
+        imwrite("/home/ubuntu/mjpg-streamer/www/detected.jpg",displayedFrame);
 
         // cvReleaseImage(&dst_img);
 
@@ -628,22 +648,63 @@ void recognizeAndTrainUsingWebcam(VideoCapture &videoCapture, CascadeClassifier 
         
         // IMPORTANT: Wait for atleast 20 milliseconds, so that the image can be displayed on the screen!
         // Also checks if a key was pressed in the GUI window. Note that it should be a "char" to support Linux.
-        char keypress = getchar();  // This is needed if you want to see anything!
+//        printf("COUNT %d\n", countPickImage);
+        if(countPickImage > 24){
+			if(countPickImage == 25){
+				printf("25 images were collected, start trainning with `2` option\n");
+				countPickImage = 30; //default value
+				m_mode = MODE_DETECTION;
+				
+			}
+            if(keypress != VK_6)
+                keypress = getchar();  // stop and wait option key
 
-        if (keypress == VK_ESCAPE) {   // Escape Key
-            // Quit the program!
-            break;
-        }else if(keypress == VK_0){
-        	m_mode = MODE_COLLECT_FACES;
-        	pthread_mutex_unlock( &mutex1 );
-        }else if(keypress == VK_1){
-        	m_mode = MODE_RECOGNITION;
-        }else if(keypress == VK_2){
-        	m_mode = MODE_TRAINING;
-        }else if(keypress == VK_3){
-        	m_mode = MODE_DETECTION;
-        }
-
+	        if (keypress == VK_ESCAPE) {   // Escape Key
+	            // Quit the program!
+	            break;
+	        }
+                else if(keypress == VK_0){
+                        keypress = 20; //restart keypress
+	        	m_mode = MODE_COLLECT_FACES;
+	        	pthread_mutex_unlock( &mutex1 ); //increment number of
+                        printf("Entered in collect faces\n");
+	        }
+                else if(keypress == VK_1){
+	        	m_mode = MODE_RECOGNITION;
+                        cout << "Starting Recognition" << endl;
+	        }
+                else if(keypress == VK_2){
+                        cout << "Starting Training" << endl;
+	        	m_mode = MODE_TRAINING;
+	        }
+                else if(keypress == VK_3){
+	        	m_mode = MODE_DETECTION;
+	        }
+                else if(keypress == VK_4){
+//	        	storeTrainingData();
+	        	loadTrainingData();
+	        }
+                else if(keypress == VK_5){
+	        	storeTrainingData();
+//	        	loadTrainingData();
+	        } else if(keypress == VK_6){ //load image from file
+                imgfile = true;
+                char filename[64];
+                // cout << "Insert the image filename" << endl;
+                // cin >> filename;
+                // cout << filename << endl;
+                Mat image = imread("/home/ubuntu/mjpg-streamer/output9.jpg",CV_LOAD_IMAGE_COLOR);
+                if (image.empty())
+                {
+                    std::cout << "!!! Failed imread(): image not found" << std::endl;
+                    // don't let the execution continue, else imshow() will crash.
+                }
+                displayedFrame.release();
+                image.copyTo(displayedFrame);
+                image.release();
+                m_mode = MODE_RECOGNITION;
+            }
+       }
 
 
 
@@ -661,8 +722,10 @@ int main(int argc, char *argv[])
     int iret1;
     const char *message1 = "Thread 1";
     cout << "WebcamFaceRec, by Shervin Emami (www.shervinemami.info), June 2012." << endl;
+    cout << "Enhanced for beaglebone Black by Victor Nascimento in June 2015" << endl;
     cout << "Realtime face detection + face recognition from a webcam using LBP and Eigenfaces or Fisherfaces." << endl;
     cout << "Compiled with OpenCV version " << CV_VERSION << endl << endl;
+    cout << "\nMenu options: \n\t 0 - Collect Faces \n\t 1 - Recognition \n\t 2 - Training \n\t 3 - Detection (Default) \n\t 4 - Load xml database \n\t 5 - Store xml database \n\t 6 - load image file \n" << endl;
 
 
     iret1 = pthread_create( &thread1, NULL, changeMode, (void*) message1);
