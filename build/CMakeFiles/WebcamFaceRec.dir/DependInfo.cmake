@@ -4,11 +4,11 @@ SET(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 SET(CMAKE_DEPENDS_CHECK_CXX
-  "/home/ubuntu/victor/NewFaceRec/ImageUtils.cpp" "/home/ubuntu/victor/NewFaceRec/build/CMakeFiles/WebcamFaceRec.dir/ImageUtils.cpp.o"
-  "/home/ubuntu/victor/NewFaceRec/detectObject.cpp" "/home/ubuntu/victor/NewFaceRec/build/CMakeFiles/WebcamFaceRec.dir/detectObject.cpp.o"
-  "/home/ubuntu/victor/NewFaceRec/main.cpp" "/home/ubuntu/victor/NewFaceRec/build/CMakeFiles/WebcamFaceRec.dir/main.cpp.o"
-  "/home/ubuntu/victor/NewFaceRec/preprocessFace.cpp" "/home/ubuntu/victor/NewFaceRec/build/CMakeFiles/WebcamFaceRec.dir/preprocessFace.cpp.o"
-  "/home/ubuntu/victor/NewFaceRec/recognition.cpp" "/home/ubuntu/victor/NewFaceRec/build/CMakeFiles/WebcamFaceRec.dir/recognition.cpp.o"
+  "/home/ubuntu/victor/FaceRecNB/ImageUtils.cpp" "/home/ubuntu/victor/FaceRecNB/build/CMakeFiles/WebcamFaceRec.dir/ImageUtils.cpp.o"
+  "/home/ubuntu/victor/FaceRecNB/detectObject.cpp" "/home/ubuntu/victor/FaceRecNB/build/CMakeFiles/WebcamFaceRec.dir/detectObject.cpp.o"
+  "/home/ubuntu/victor/FaceRecNB/main.cpp" "/home/ubuntu/victor/FaceRecNB/build/CMakeFiles/WebcamFaceRec.dir/main.cpp.o"
+  "/home/ubuntu/victor/FaceRecNB/preprocessFace.cpp" "/home/ubuntu/victor/FaceRecNB/build/CMakeFiles/WebcamFaceRec.dir/preprocessFace.cpp.o"
+  "/home/ubuntu/victor/FaceRecNB/recognition.cpp" "/home/ubuntu/victor/FaceRecNB/build/CMakeFiles/WebcamFaceRec.dir/recognition.cpp.o"
   )
 SET(CMAKE_CXX_COMPILER_ID "GNU")
 

@@ -35,10 +35,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ubuntu/victor/NewFaceRec
+CMAKE_SOURCE_DIR = /home/ubuntu/victor/FaceRecNB
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ubuntu/victor/NewFaceRec/build
+CMAKE_BINARY_DIR = /home/ubuntu/victor/FaceRecNB/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/WebcamFaceRec.dir/depend.make
@@ -51,17 +51,17 @@ include CMakeFiles/WebcamFaceRec.dir/flags.make
 
 CMakeFiles/WebcamFaceRec.dir/main.cpp.o: CMakeFiles/WebcamFaceRec.dir/flags.make
 CMakeFiles/WebcamFaceRec.dir/main.cpp.o: ../main.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ubuntu/victor/NewFaceRec/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ubuntu/victor/FaceRecNB/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/WebcamFaceRec.dir/main.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/WebcamFaceRec.dir/main.cpp.o -c /home/ubuntu/victor/NewFaceRec/main.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/WebcamFaceRec.dir/main.cpp.o -c /home/ubuntu/victor/FaceRecNB/main.cpp
 
 CMakeFiles/WebcamFaceRec.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/WebcamFaceRec.dir/main.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ubuntu/victor/NewFaceRec/main.cpp > CMakeFiles/WebcamFaceRec.dir/main.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ubuntu/victor/FaceRecNB/main.cpp > CMakeFiles/WebcamFaceRec.dir/main.cpp.i
 
 CMakeFiles/WebcamFaceRec.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WebcamFaceRec.dir/main.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ubuntu/victor/NewFaceRec/main.cpp -o CMakeFiles/WebcamFaceRec.dir/main.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ubuntu/victor/FaceRecNB/main.cpp -o CMakeFiles/WebcamFaceRec.dir/main.cpp.s
 
 CMakeFiles/WebcamFaceRec.dir/main.cpp.o.requires:
 .PHONY : CMakeFiles/WebcamFaceRec.dir/main.cpp.o.requires
@@ -74,17 +74,17 @@ CMakeFiles/WebcamFaceRec.dir/main.cpp.o.provides.build: CMakeFiles/WebcamFaceRec
 
 CMakeFiles/WebcamFaceRec.dir/detectObject.cpp.o: CMakeFiles/WebcamFaceRec.dir/flags.make
 CMakeFiles/WebcamFaceRec.dir/detectObject.cpp.o: ../detectObject.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ubuntu/victor/NewFaceRec/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ubuntu/victor/FaceRecNB/build/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/WebcamFaceRec.dir/detectObject.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/WebcamFaceRec.dir/detectObject.cpp.o -c /home/ubuntu/victor/NewFaceRec/detectObject.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/WebcamFaceRec.dir/detectObject.cpp.o -c /home/ubuntu/victor/FaceRecNB/detectObject.cpp
 
 CMakeFiles/WebcamFaceRec.dir/detectObject.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/WebcamFaceRec.dir/detectObject.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ubuntu/victor/NewFaceRec/detectObject.cpp > CMakeFiles/WebcamFaceRec.dir/detectObject.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ubuntu/victor/FaceRecNB/detectObject.cpp > CMakeFiles/WebcamFaceRec.dir/detectObject.cpp.i
 
 CMakeFiles/WebcamFaceRec.dir/detectObject.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WebcamFaceRec.dir/detectObject.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ubuntu/victor/NewFaceRec/detectObject.cpp -o CMakeFiles/WebcamFaceRec.dir/detectObject.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ubuntu/victor/FaceRecNB/detectObject.cpp -o CMakeFiles/WebcamFaceRec.dir/detectObject.cpp.s
 
 CMakeFiles/WebcamFaceRec.dir/detectObject.cpp.o.requires:
 .PHONY : CMakeFiles/WebcamFaceRec.dir/detectObject.cpp.o.requires
@@ -97,17 +97,17 @@ CMakeFiles/WebcamFaceRec.dir/detectObject.cpp.o.provides.build: CMakeFiles/Webca
 
 CMakeFiles/WebcamFaceRec.dir/preprocessFace.cpp.o: CMakeFiles/WebcamFaceRec.dir/flags.make
 CMakeFiles/WebcamFaceRec.dir/preprocessFace.cpp.o: ../preprocessFace.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ubuntu/victor/NewFaceRec/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ubuntu/victor/FaceRecNB/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/WebcamFaceRec.dir/preprocessFace.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/WebcamFaceRec.dir/preprocessFace.cpp.o -c /home/ubuntu/victor/NewFaceRec/preprocessFace.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/WebcamFaceRec.dir/preprocessFace.cpp.o -c /home/ubuntu/victor/FaceRecNB/preprocessFace.cpp
 
 CMakeFiles/WebcamFaceRec.dir/preprocessFace.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/WebcamFaceRec.dir/preprocessFace.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ubuntu/victor/NewFaceRec/preprocessFace.cpp > CMakeFiles/WebcamFaceRec.dir/preprocessFace.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ubuntu/victor/FaceRecNB/preprocessFace.cpp > CMakeFiles/WebcamFaceRec.dir/preprocessFace.cpp.i
 
 CMakeFiles/WebcamFaceRec.dir/preprocessFace.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WebcamFaceRec.dir/preprocessFace.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ubuntu/victor/NewFaceRec/preprocessFace.cpp -o CMakeFiles/WebcamFaceRec.dir/preprocessFace.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ubuntu/victor/FaceRecNB/preprocessFace.cpp -o CMakeFiles/WebcamFaceRec.dir/preprocessFace.cpp.s
 
 CMakeFiles/WebcamFaceRec.dir/preprocessFace.cpp.o.requires:
 .PHONY : CMakeFiles/WebcamFaceRec.dir/preprocessFace.cpp.o.requires
@@ -120,17 +120,17 @@ CMakeFiles/WebcamFaceRec.dir/preprocessFace.cpp.o.provides.build: CMakeFiles/Web
 
 CMakeFiles/WebcamFaceRec.dir/recognition.cpp.o: CMakeFiles/WebcamFaceRec.dir/flags.make
 CMakeFiles/WebcamFaceRec.dir/recognition.cpp.o: ../recognition.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ubuntu/victor/NewFaceRec/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ubuntu/victor/FaceRecNB/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/WebcamFaceRec.dir/recognition.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/WebcamFaceRec.dir/recognition.cpp.o -c /home/ubuntu/victor/NewFaceRec/recognition.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/WebcamFaceRec.dir/recognition.cpp.o -c /home/ubuntu/victor/FaceRecNB/recognition.cpp
 
 CMakeFiles/WebcamFaceRec.dir/recognition.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/WebcamFaceRec.dir/recognition.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ubuntu/victor/NewFaceRec/recognition.cpp > CMakeFiles/WebcamFaceRec.dir/recognition.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ubuntu/victor/FaceRecNB/recognition.cpp > CMakeFiles/WebcamFaceRec.dir/recognition.cpp.i
 
 CMakeFiles/WebcamFaceRec.dir/recognition.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WebcamFaceRec.dir/recognition.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ubuntu/victor/NewFaceRec/recognition.cpp -o CMakeFiles/WebcamFaceRec.dir/recognition.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ubuntu/victor/FaceRecNB/recognition.cpp -o CMakeFiles/WebcamFaceRec.dir/recognition.cpp.s
 
 CMakeFiles/WebcamFaceRec.dir/recognition.cpp.o.requires:
 .PHONY : CMakeFiles/WebcamFaceRec.dir/recognition.cpp.o.requires
@@ -143,17 +143,17 @@ CMakeFiles/WebcamFaceRec.dir/recognition.cpp.o.provides.build: CMakeFiles/Webcam
 
 CMakeFiles/WebcamFaceRec.dir/ImageUtils.cpp.o: CMakeFiles/WebcamFaceRec.dir/flags.make
 CMakeFiles/WebcamFaceRec.dir/ImageUtils.cpp.o: ../ImageUtils.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ubuntu/victor/NewFaceRec/build/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ubuntu/victor/FaceRecNB/build/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/WebcamFaceRec.dir/ImageUtils.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/WebcamFaceRec.dir/ImageUtils.cpp.o -c /home/ubuntu/victor/NewFaceRec/ImageUtils.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/WebcamFaceRec.dir/ImageUtils.cpp.o -c /home/ubuntu/victor/FaceRecNB/ImageUtils.cpp
 
 CMakeFiles/WebcamFaceRec.dir/ImageUtils.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/WebcamFaceRec.dir/ImageUtils.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ubuntu/victor/NewFaceRec/ImageUtils.cpp > CMakeFiles/WebcamFaceRec.dir/ImageUtils.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ubuntu/victor/FaceRecNB/ImageUtils.cpp > CMakeFiles/WebcamFaceRec.dir/ImageUtils.cpp.i
 
 CMakeFiles/WebcamFaceRec.dir/ImageUtils.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WebcamFaceRec.dir/ImageUtils.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ubuntu/victor/NewFaceRec/ImageUtils.cpp -o CMakeFiles/WebcamFaceRec.dir/ImageUtils.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ubuntu/victor/FaceRecNB/ImageUtils.cpp -o CMakeFiles/WebcamFaceRec.dir/ImageUtils.cpp.s
 
 CMakeFiles/WebcamFaceRec.dir/ImageUtils.cpp.o.requires:
 .PHONY : CMakeFiles/WebcamFaceRec.dir/ImageUtils.cpp.o.requires
@@ -234,6 +234,6 @@ CMakeFiles/WebcamFaceRec.dir/clean:
 .PHONY : CMakeFiles/WebcamFaceRec.dir/clean
 
 CMakeFiles/WebcamFaceRec.dir/depend:
-	cd /home/ubuntu/victor/NewFaceRec/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ubuntu/victor/NewFaceRec /home/ubuntu/victor/NewFaceRec /home/ubuntu/victor/NewFaceRec/build /home/ubuntu/victor/NewFaceRec/build /home/ubuntu/victor/NewFaceRec/build/CMakeFiles/WebcamFaceRec.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/ubuntu/victor/FaceRecNB/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ubuntu/victor/FaceRecNB /home/ubuntu/victor/FaceRecNB /home/ubuntu/victor/FaceRecNB/build /home/ubuntu/victor/FaceRecNB/build /home/ubuntu/victor/FaceRecNB/build/CMakeFiles/WebcamFaceRec.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/WebcamFaceRec.dir/depend
 
