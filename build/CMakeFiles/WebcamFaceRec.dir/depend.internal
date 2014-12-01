@@ -55,13 +55,8 @@ CMakeFiles/WebcamFaceRec.dir/ImageUtils.cpp.o
  /home/ubuntu/instalation/include/opencv2/legacy/compat.hpp
  /home/ubuntu/instalation/include/opencv2/objdetect/objdetect.hpp
  /home/ubuntu/instalation/include/opencv2/video/tracking.hpp
-<<<<<<< HEAD
  /home/ubuntu/victor/NewFaceRec/ImageUtils.cpp
  /home/ubuntu/victor/NewFaceRec/ImageUtils.h
-=======
- /home/ubuntu/victor/FaceRecNB/ImageUtils.cpp
- /home/ubuntu/victor/FaceRecNB/ImageUtils.h
->>>>>>> bd528cf40d35096fcca79612f0045f762d632d48
 CMakeFiles/WebcamFaceRec.dir/detectObject.cpp.o
  /home/ubuntu/instalation/include/opencv2/calib3d/calib3d.hpp
  /home/ubuntu/instalation/include/opencv2/contrib/contrib.hpp
@@ -90,13 +85,8 @@ CMakeFiles/WebcamFaceRec.dir/detectObject.cpp.o
  /home/ubuntu/instalation/include/opencv2/video/background_segm.hpp
  /home/ubuntu/instalation/include/opencv2/video/tracking.hpp
  /home/ubuntu/instalation/include/opencv2/video/video.hpp
-<<<<<<< HEAD
  /home/ubuntu/victor/NewFaceRec/detectObject.cpp
  /home/ubuntu/victor/NewFaceRec/detectObject.h
-=======
- /home/ubuntu/victor/FaceRecNB/detectObject.cpp
- /home/ubuntu/victor/FaceRecNB/detectObject.h
->>>>>>> bd528cf40d35096fcca79612f0045f762d632d48
 CMakeFiles/WebcamFaceRec.dir/main.cpp.o
  /home/ubuntu/instalation/include/opencv/cv.h
  /home/ubuntu/instalation/include/opencv/cxcore.h
@@ -160,19 +150,11 @@ CMakeFiles/WebcamFaceRec.dir/main.cpp.o
  /home/ubuntu/instalation/include/opencv2/video/background_segm.hpp
  /home/ubuntu/instalation/include/opencv2/video/tracking.hpp
  /home/ubuntu/instalation/include/opencv2/video/video.hpp
-<<<<<<< HEAD
  /home/ubuntu/victor/NewFaceRec/ImageUtils.h
  /home/ubuntu/victor/NewFaceRec/detectObject.h
  /home/ubuntu/victor/NewFaceRec/main.cpp
  /home/ubuntu/victor/NewFaceRec/preprocessFace.h
  /home/ubuntu/victor/NewFaceRec/recognition.h
-=======
- /home/ubuntu/victor/FaceRecNB/ImageUtils.h
- /home/ubuntu/victor/FaceRecNB/detectObject.h
- /home/ubuntu/victor/FaceRecNB/main.cpp
- /home/ubuntu/victor/FaceRecNB/preprocessFace.h
- /home/ubuntu/victor/FaceRecNB/recognition.h
->>>>>>> bd528cf40d35096fcca79612f0045f762d632d48
 CMakeFiles/WebcamFaceRec.dir/preprocessFace.cpp.o
  /home/ubuntu/instalation/include/opencv/cv.h
  /home/ubuntu/instalation/include/opencv/cxcore.h
@@ -236,17 +218,10 @@ CMakeFiles/WebcamFaceRec.dir/preprocessFace.cpp.o
  /home/ubuntu/instalation/include/opencv2/video/background_segm.hpp
  /home/ubuntu/instalation/include/opencv2/video/tracking.hpp
  /home/ubuntu/instalation/include/opencv2/video/video.hpp
-<<<<<<< HEAD
  /home/ubuntu/victor/NewFaceRec/ImageUtils.h
  /home/ubuntu/victor/NewFaceRec/detectObject.h
  /home/ubuntu/victor/NewFaceRec/preprocessFace.cpp
  /home/ubuntu/victor/NewFaceRec/preprocessFace.h
-=======
- /home/ubuntu/victor/FaceRecNB/ImageUtils.h
- /home/ubuntu/victor/FaceRecNB/detectObject.h
- /home/ubuntu/victor/FaceRecNB/preprocessFace.cpp
- /home/ubuntu/victor/FaceRecNB/preprocessFace.h
->>>>>>> bd528cf40d35096fcca79612f0045f762d632d48
 CMakeFiles/WebcamFaceRec.dir/recognition.cpp.o
  /home/ubuntu/instalation/include/opencv/cv.h
  /home/ubuntu/instalation/include/opencv/cxcore.h
@@ -310,12 +285,6 @@ CMakeFiles/WebcamFaceRec.dir/recognition.cpp.o
  /home/ubuntu/instalation/include/opencv2/video/background_segm.hpp
  /home/ubuntu/instalation/include/opencv2/video/tracking.hpp
  /home/ubuntu/instalation/include/opencv2/video/video.hpp
-<<<<<<< HEAD
  /home/ubuntu/victor/NewFaceRec/ImageUtils.h
  /home/ubuntu/victor/NewFaceRec/recognition.cpp
  /home/ubuntu/victor/NewFaceRec/recognition.h
-=======
- /home/ubuntu/victor/FaceRecNB/ImageUtils.h
- /home/ubuntu/victor/FaceRecNB/recognition.cpp
- /home/ubuntu/victor/FaceRecNB/recognition.h
->>>>>>> bd528cf40d35096fcca79612f0045f762d632d48

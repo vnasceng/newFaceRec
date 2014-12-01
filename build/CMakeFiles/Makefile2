@@ -47,10 +47,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ubuntu/victor/FaceRecNB
+CMAKE_SOURCE_DIR = /home/ubuntu/victor/NewFaceRec
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ubuntu/victor/FaceRecNB/build
+CMAKE_BINARY_DIR = /home/ubuntu/victor/NewFaceRec/build
 
 #=============================================================================
 # Target rules for target CMakeFiles/WebcamFaceRec.dir
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/ubuntu/victor/FaceRecNB/build
 CMakeFiles/WebcamFaceRec.dir/all:
 	$(MAKE) -f CMakeFiles/WebcamFaceRec.dir/build.make CMakeFiles/WebcamFaceRec.dir/depend
 	$(MAKE) -f CMakeFiles/WebcamFaceRec.dir/build.make CMakeFiles/WebcamFaceRec.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ubuntu/victor/FaceRecNB/build/CMakeFiles  1 2 3 4 5
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ubuntu/victor/NewFaceRec/build/CMakeFiles  1 2 3 4 5
 	@echo "Built target WebcamFaceRec"
 .PHONY : CMakeFiles/WebcamFaceRec.dir/all
 
@@ -69,9 +69,9 @@ all: CMakeFiles/WebcamFaceRec.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/WebcamFaceRec.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ubuntu/victor/FaceRecNB/build/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ubuntu/victor/NewFaceRec/build/CMakeFiles 5
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/WebcamFaceRec.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ubuntu/victor/FaceRecNB/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ubuntu/victor/NewFaceRec/build/CMakeFiles 0
 .PHONY : CMakeFiles/WebcamFaceRec.dir/rule
 
 # Convenience name for target.

@@ -106,10 +106,7 @@ using namespace std;
 #define VK_3 0x33
 #define VK_4 0x34
 #define VK_5 0x35
-<<<<<<< HEAD
 #define VK_6 0x36
-=======
->>>>>>> bd528cf40d35096fcca79612f0045f762d632d48
 
 pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
 
@@ -285,24 +282,15 @@ void *changeMode( void *ptr )
 	    if (m_mode == MODE_COLLECT_FACES) {
 	    	countPickImage = 0;
 	        cout << "Incrementing number of persons, number persons was = " << m_numPersons << endl;
-<<<<<<< HEAD
             cout << "[debug] - last faces " << m_latestFaces.size() << " selected person " << m_selectedPerson << endl;
-=======
->>>>>>> bd528cf40d35096fcca79612f0045f762d632d48
 	        // Check if there is already a person without any collected faces, then use that person instead.
 	        // This can be checked by seeing if an image exists in their "latest collected face".
 	        if ((m_numPersons == 0) || (m_latestFaces[m_numPersons-1] >= 0)) {
 	            // Add a new person.
 	            m_numPersons++;
-<<<<<<< HEAD
                 char aux[64];
                 sprintf(aux,"person_%d",m_numPersons);
                 personNames.push_back(aux);
-=======
-                    char aux[64];
-                    sprintf(aux,"person_%d",m_numPersons);
-                    personNames.push_back(aux);
->>>>>>> bd528cf40d35096fcca79612f0045f762d632d48
 	            m_latestFaces.push_back(-1); // Allocate space for an extra person.
 	            cout << "Current Num Persons: " << m_numPersons << endl;
 	        }
@@ -357,11 +345,7 @@ void recognizeAndTrainUsingWebcam(VideoCapture &videoCapture, CascadeClassifier 
     // Since we have already initialized everything, lets start in Detection mode.
     m_mode = MODE_DETECTION;
     char keypress;
-<<<<<<< HEAD
     keypress == VK_4;
-=======
-
->>>>>>> bd528cf40d35096fcca79612f0045f762d632d48
     Mat cameraFrame;
     Mat displayedFrame;
     // Run forever, until the user hits Escape to "break" out of this loop.
@@ -369,7 +353,6 @@ void recognizeAndTrainUsingWebcam(VideoCapture &videoCapture, CascadeClassifier 
         cout <<  " Current MODE:  " << m_mode << endl;
         // Grab the next camera frame. Note that you can't modify camera frames.
         
-<<<<<<< HEAD
         if(!imgfile){
             videoCapture >> cameraFrame;
             if( cameraFrame.empty() ) {
@@ -378,13 +361,6 @@ void recognizeAndTrainUsingWebcam(VideoCapture &videoCapture, CascadeClassifier 
             }
             cameraFrame.copyTo(displayedFrame);
             cameraFrame.release();
-=======
-        
-        videoCapture >> cameraFrame;
-        if( cameraFrame.empty() ) {
-            cerr << "ERROR: Couldn't grab the next camera frame." << endl;
-            exit(1);
->>>>>>> bd528cf40d35096fcca79612f0045f762d632d48
         }
         //restor default mode (load from camera)
         // imgfile = false; 
@@ -392,12 +368,7 @@ void recognizeAndTrainUsingWebcam(VideoCapture &videoCapture, CascadeClassifier 
 
         // Get a copy of the camera frame that we can draw onto.
         
-<<<<<<< HEAD
 
-=======
-        cameraFrame.copyTo(displayedFrame);
-        cameraFrame.release();
->>>>>>> bd528cf40d35096fcca79612f0045f762d632d48
 
         // Run the face recognition system on the camera image. It will draw some things onto the given image, so make sure it is not read-only memory!
         int identity = -1;
@@ -434,11 +405,7 @@ void recognizeAndTrainUsingWebcam(VideoCapture &videoCapture, CascadeClassifier 
             // Check if we have detected a face.
             if (gotFaceAndEyes) {
             	
-<<<<<<< HEAD
             	cout << "[debug] - last faces " << m_latestFaces.size() << " selected person " << m_selectedPerson << endl;
-=======
-            	
->>>>>>> bd528cf40d35096fcca79612f0045f762d632d48
                 // Check if this face looks somewhat different from the previously collected face.
                 double imageDiff = 10000000000.0;
                 if (old_prepreprocessedFace.data) {
@@ -511,35 +478,19 @@ void recognizeAndTrainUsingWebcam(VideoCapture &videoCapture, CascadeClassifier 
         }
         else if (m_mode == MODE_RECOGNITION) {
             if (gotFaceAndEyes && (preprocessedFaces.size() > 0) && (preprocessedFaces.size() == faceLabels.size())) {
-<<<<<<< HEAD
-=======
-                cout << "Step 1" << endl;
->>>>>>> bd528cf40d35096fcca79612f0045f762d632d48
                 // Generate a face approximation by back-projecting the eigenvectors & eigenvalues.
                 Mat reconstructedFace;
                 reconstructedFace = reconstructFace(model, preprocessedFace);
-                cout << "Step 2" << endl;
                 if (m_debug)
                     if (reconstructedFace.data)
                         saveFloatMat("reconstructedFace", &reconstructedFace);
-<<<<<<< HEAD
                 // Verify whether the reconstructed face looks like the preprocessed face, otherwise it is probably an unknown person.
                 double similarity = getSimilarity(preprocessedFace, reconstructedFace);
-=======
-                cout << "Step 3" << endl;
-                // Verify whether the reconstructed face looks like the preprocessed face, otherwise it is probably an unknown person.
-                double similarity = getSimilarity(preprocessedFace, reconstructedFace);
-                cout << "Step 4" << endl;
->>>>>>> bd528cf40d35096fcca79612f0045f762d632d48
                 string outputStr;
                 if (similarity < UNKNOWN_PERSON_THRESHOLD) {
                     // Identify who the person is in the preprocessed face image.
                     identity = model->predict(preprocessedFace);
                     outputStr = personNames[identity];
-<<<<<<< HEAD
-=======
-                    cout << "Step 5" << endl;
->>>>>>> bd528cf40d35096fcca79612f0045f762d632d48
                 }
                 else {
                     // Since the confidence is low, assume it is an unknown person.
@@ -583,7 +534,6 @@ void recognizeAndTrainUsingWebcam(VideoCapture &videoCapture, CascadeClassifier 
         
         // Show the help, while also showing the number of collected faces. Since we also collect mirrored faces, we should just
         // tell the user how many faces they think we saved (ignoring the mirrored faces), hence divide by 2.
-<<<<<<< HEAD
         // string help;
         // Rect rcHelp;
         // if (m_mode == MODE_DETECTION)
@@ -601,25 +551,6 @@ void recognizeAndTrainUsingWebcam(VideoCapture &videoCapture, CascadeClassifier 
         //     drawString(displayedFrame, help, Point(BORDER, -BORDER-2), CV_RGB(0,0,0), txtSize);  // Black shadow.
         //     rcHelp = drawString (displayedFrame, help, Point(BORDER+1, -BORDER-1), CV_RGB(255,255,255), txtSize);  // White text.
         // }
-=======
-        string help;
-        Rect rcHelp;
-        if (m_mode == MODE_DETECTION)
-            help = "Click [Add Person] when ready to collect faces.";
-        else if (m_mode == MODE_COLLECT_FACES)
-            help = "Click anywhere to train from your " + toString(preprocessedFaces.size()/2) + " faces of " + toString(m_numPersons) + " people.";
-        else if (m_mode == MODE_TRAINING)
-            help = "Please wait while your " + toString(preprocessedFaces.size()/2) + " faces of " + toString(m_numPersons) + " people builds.";
-        else if (m_mode == MODE_RECOGNITION)
-            help = "Click people on the right to add more faces to them, or [Add Person] for someone new.";
-        if (help.length() > 0) {
-            // Draw it with a black background and then again with a white foreground.
-            // Since BORDER may be 0 and we need a negative position, subtract 2 from the border so it is always negative.
-            float txtSize = 0.4;
-            drawString(displayedFrame, help, Point(BORDER, -BORDER-2), CV_RGB(0,0,0), txtSize);  // Black shadow.
-            rcHelp = drawString (displayedFrame, help, Point(BORDER+1, -BORDER-1), CV_RGB(255,255,255), txtSize);  // White text.
-        }
->>>>>>> bd528cf40d35096fcca79612f0045f762d632d48
 
         // // Show the current mode.
         // if (m_mode >= 0 && m_mode < MODE_END) {
@@ -725,13 +656,8 @@ void recognizeAndTrainUsingWebcam(VideoCapture &videoCapture, CascadeClassifier 
 				m_mode = MODE_DETECTION;
 				
 			}
-<<<<<<< HEAD
             if(keypress != VK_6)
                 keypress = getchar();  // stop and wait option key
-=======
-
-			keypress = getchar();  // This is needed if you want to see anything!
->>>>>>> bd528cf40d35096fcca79612f0045f762d632d48
 
 	        if (keypress == VK_ESCAPE) {   // Escape Key
 	            // Quit the program!
@@ -761,7 +687,6 @@ void recognizeAndTrainUsingWebcam(VideoCapture &videoCapture, CascadeClassifier 
                 else if(keypress == VK_5){
 	        	storeTrainingData();
 //	        	loadTrainingData();
-<<<<<<< HEAD
 	        } else if(keypress == VK_6){ //load image from file
                 imgfile = true;
                 char filename[64];
@@ -779,9 +704,6 @@ void recognizeAndTrainUsingWebcam(VideoCapture &videoCapture, CascadeClassifier 
                 image.release();
                 m_mode = MODE_RECOGNITION;
             }
-=======
-	        }
->>>>>>> bd528cf40d35096fcca79612f0045f762d632d48
        }
 
 

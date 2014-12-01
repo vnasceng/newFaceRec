@@ -27,10 +27,7 @@ extern vector<Mat> preprocessedFaces;
 extern vector<int> faceLabels;
 extern int m_numPersons;
 extern vector<string> personNames;
-<<<<<<< HEAD
 extern vector<int> m_latestFaces;
-=======
->>>>>>> bd528cf40d35096fcca79612f0045f762d632d48
 
 int loadTrainingData()
 {
@@ -74,15 +71,11 @@ int loadTrainingData()
     // cout << "Name " << aux.c_str() << endl;
     strcpy(facerecAlgorithm,aux.c_str());
     // aux.copy(facerecAlgorithm,aux.size(),0);
-<<<<<<< HEAD
     cout << "Algorithm Name: " << facerecAlgorithm << endl;
 
     fn = fs["m_latestFaces"];
     read( fn, m_latestFaces ); 
     cout << "m_latestFaces size" << m_latestFaces.size() << endl;
-=======
-    cout << "Algorithm Name: " << facerecAlgorithm << endl; 
->>>>>>> bd528cf40d35096fcca79612f0045f762d632d48
 
     cout << "Finishing LoadingTrainingData" << endl;
     // release the file-storage interface
@@ -118,10 +111,7 @@ void storeTrainingData()
     fs << "preprocessedFaces" << preprocessedFaces;
     fs << "faceLabels" << faceLabels;
     fs << "facerecAlgorithm" << facerecAlgorithm;
-<<<<<<< HEAD
     fs << "m_latestFaces" << m_latestFaces;
-=======
->>>>>>> bd528cf40d35096fcca79612f0045f762d632d48
     // cvWriteInt(fileStorage, "m_numPersons", m_numPersons);
     cout << "Finishing StoreTrainingData" << endl;
     // release the file-storage interface

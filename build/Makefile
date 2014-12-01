@@ -39,10 +39,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ubuntu/victor/FaceRecNB
+CMAKE_SOURCE_DIR = /home/ubuntu/victor/NewFaceRec
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ubuntu/victor/FaceRecNB/build
+CMAKE_BINARY_DIR = /home/ubuntu/victor/NewFaceRec/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -69,9 +69,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ubuntu/victor/FaceRecNB/build/CMakeFiles /home/ubuntu/victor/FaceRecNB/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ubuntu/victor/NewFaceRec/build/CMakeFiles /home/ubuntu/victor/NewFaceRec/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ubuntu/victor/FaceRecNB/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ubuntu/victor/NewFaceRec/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
