@@ -47,3 +47,10 @@ Mat reconstructFace(const Ptr<FaceRecognizer> model, const Mat preprocessedFace)
 
 // Compare two images by getting the L2 error (square-root of sum of squared error).
 double getSimilarity(const Mat A, const Mat B);
+
+
+//store data in xml file
+void storeTrainingData();
+
+//load data from xml file
+int loadTrainingData();

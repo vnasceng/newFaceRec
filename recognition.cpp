@@ -21,6 +21,98 @@
 
 #include "ImageUtils.h"      // Shervin's handy OpenCV utility functions.
 
+//variables from main.cpp
+extern char *facerecAlgorithm;
+extern vector<Mat> preprocessedFaces;
+extern vector<int> faceLabels;
+extern int m_numPersons;
+extern vector<string> personNames;
+
+int loadTrainingData()
+{
+    int i;
+    cout << "Loading data from xml" << endl;
+    cout << "Starting LoadingTrainingData" << endl;
+    // create a file-storage interface
+    FileStorage fs("facedata.xml", FileStorage::READ);
+
+    // Load the person names. 
+    personNames.clear();    // Make sure it starts as empty.
+    fs["m_numPersons"] >> m_numPersons;
+    cout << "num persons " << m_numPersons << endl;
+    if (m_numPersons == 0) {
+        cout << "No people found in the training database 'facedata.xml'" << endl;
+        return 0;
+    }
+    // Load each person's name.
+    for (i=0; i<m_numPersons; i++) {
+        string sPersonName;
+        char varname[200];
+        snprintf( varname, sizeof(varname)-1, "personName_%d", (i+1) );
+        fs[varname] >> sPersonName;
+        personNames.push_back( sPersonName );
+        cout <<"name " << personNames[i] << endl;
+    }
+
+    // Load the data
+    FileNode fn = fs["preprocessedFaces"];
+    read( fn, preprocessedFaces );
+    cout << "size preprocess faces" << preprocessedFaces.size()/2 << endl;
+
+
+    fn = fs["faceLabels"];
+    read( fn, faceLabels );
+    cout << "size facelabels " << faceLabels.size()/2 << endl;
+    string aux;
+    
+    fs["facerecAlgorithm"] >> aux;
+    facerecAlgorithm = new char [aux.size()+1];
+    // cout << "Name " << aux.c_str() << endl;
+    strcpy(facerecAlgorithm,aux.c_str());
+    // aux.copy(facerecAlgorithm,aux.size(),0);
+    cout << "Algorithm Name: " << facerecAlgorithm << endl; 
+
+    cout << "Finishing LoadingTrainingData" << endl;
+    // release the file-storage interface
+    fs.release();
+    return 1;
+}
+
+
+// Save the training data to the file 'facedata.xml'.
+void storeTrainingData()
+{
+    // CvFileStorage * fileStorage;
+    int i;
+    cout << "Starting StoreTrainingData" << endl;
+    // create a file-storage interface
+    FileStorage fs("facedata.xml", FileStorage::WRITE);
+    // fileStorage = cvOpenFileStorage( "facedata.xml", 0, CV_STORAGE_WRITE );
+    
+    fs << "m_numPersons" << m_numPersons;
+    cout << "num of persons " << m_numPersons << endl;
+    // Store the person names. Added by Shervin.
+    // cvWriteInt( fileStorage, "m_numPersons", m_numPersons );
+    for (i = 0; i < m_numPersons; i++) {
+        char varname[200];
+        snprintf( varname, sizeof(varname)-1, "personName_%d", (i+1) );
+        cout << "name: " << varname << "i: " << i << endl;
+        fs << varname << personNames[i].c_str();
+        // cvWriteString(fileStorage, varname, personNames[i].c_str(), 0);
+    }
+    cout << "size facelabels " << faceLabels.size()/2 << endl;
+    cout << "size preprocess faces" << preprocessedFaces.size()/2 << endl;
+    // store all the data
+    fs << "preprocessedFaces" << preprocessedFaces;
+    fs << "faceLabels" << faceLabels;
+    fs << "facerecAlgorithm" << facerecAlgorithm;
+    // cvWriteInt(fileStorage, "m_numPersons", m_numPersons);
+    cout << "Finishing StoreTrainingData" << endl;
+    // release the file-storage interface
+    fs.release();
+    // cvReleaseFileStorage( &fileStorage );
+}
+
 // Start training from the collected faces.
 // The face recognition algorithm can be one of these and perhaps more, depending on your version of OpenCV, which must be atleast v2.4.1:
 //    "FaceRecognizer.Eigenfaces":  Eigenfaces, also referred to as PCA (Turk and Pentland, 1991).
